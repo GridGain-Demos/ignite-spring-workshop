@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
-import {apiUrl} from "./config";
+import React from 'react';
 import {StateService, UIViewInjectedProps} from "@uirouter/react";
-import { GameState } from './GameService';
+import {GameState, getGame, startGame} from './GameService';
 
 interface HomeState {
     game: GameState | null;
@@ -21,29 +20,22 @@ export class Home extends React.Component<UIViewInjectedProps, HomeState>{
     }
 
     componentDidMount() {
-        fetch(`${apiUrl}/game`, {
-            credentials: 'include'
-        }).then(async value => {
-            let text = await value.text();
-            if (!text) {
-                return;
+        getGame().then(value => {
+            if (value) {
+                this.setState({
+                    game: value
+                });
             }
-            let game = JSON.parse(text);
-            this.setState({
-                game
-            });
         });
     }
 
     newGame() {
-        fetch(`${apiUrl}/game/start`, {
-            method: 'POST',
-            credentials: 'include'
-        }).then(async value => {
-           let newGameObject = JSON.parse(await value.text());
-           this.stateService.go('game', {
-               gameId: newGameObject.id
-           });
+        startGame().then(async value => {
+            if (value) {
+                this.stateService.go('game', {
+                    gameId: value.id
+                });
+            }
         });
     }
 

@@ -9,10 +9,11 @@ export function Login(props: { transition: Transition }) {
 
     let auth = async function () {
         let response = await authorize(login, password);
-        console.log(await response.text());
-        const {stateService} = props.transition.router;
-        stateService.go("home");
-    }
+        if (response) {
+            const {stateService} = props.transition.router;
+            stateService.go("home");
+        }
+    };
 
     return (
         <div className='container'>

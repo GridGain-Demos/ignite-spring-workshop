@@ -26,7 +26,7 @@ export class Game extends React.Component<UIViewInjectedProps & GameProps, Ongoi
     }
 
     componentDidMount() {
-        getGame(this.props.gameId).then(value => {
+        getGame().then(value => {
             this.setState({
                 game: value
             });

@@ -1,29 +1,81 @@
-import {apiUrl} from "./config";
+import {apiUrl, apiUrl2} from "./config";
 
 
 export async function guess(gameId: string, letter: string): Promise<GameState | null> {
-    const requestOptions: RequestInit = {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        credentials: 'include'
+    let req = async (url: string) => {
+        const requestOptions: RequestInit = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include'
+        };
+
+        return await fetch(`${url}/game/guess?gameId=${gameId}&guessedCharacter=${letter}`, requestOptions);
     };
 
-    let result0 = await fetch(`${apiUrl}/game/guess?gameId=${gameId}&guessedCharacter=${letter}`, requestOptions);
+    let result0;
 
-    if (!result0.ok) {
-        return null;
+    try {
+        result0 = await req(apiUrl);
+        if (!result0.ok) {
+            return null;
+        }
+    } catch (e) {
+        result0 = await req(apiUrl2);
+
+        if (!result0.ok) {
+            return null;
+        }
     }
 
     return JSON.parse(await result0.text());
 }
 
-export async function getGame(gameId: string): Promise<GameState | null> {
-    let result0 = await fetch(`${apiUrl}/game`, {
-        credentials: 'include'
-    });
+export async function getGame(): Promise<GameState | null> {
+    let req = async (url: string) => {
+        return await fetch(`${url}/game`, {
+            credentials: 'include'
+        })
+    };
 
-    if (!result0.ok) {
-        return null;
+    let result0;
+
+    try {
+        result0 = await req(apiUrl);
+        if (!result0.ok) {
+            return null;
+        }
+    } catch (e) {
+        result0 = await req(apiUrl2);
+
+        if (!result0.ok) {
+            return null;
+        }
+    }
+
+    return JSON.parse(await result0.text());
+}
+
+export async function startGame(): Promise<GameState | null> {
+    let req = async (url: string) => {
+        return await fetch(`${url}/game/start`, {
+            method: 'POST',
+            credentials: 'include'
+        });
+    };
+
+    let result0;
+
+    try {
+        result0 = await req(apiUrl);
+        if (!result0.ok) {
+            return null;
+        }
+    } catch (e) {
+        result0 = await req(apiUrl2);
+
+        if (!result0.ok) {
+            return null;
+        }
     }
 
     return JSON.parse(await result0.text());

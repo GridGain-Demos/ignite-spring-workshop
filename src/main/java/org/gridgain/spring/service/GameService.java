@@ -14,6 +14,14 @@ public class GameService {
     @Inject
     private GameRepository gameRepository;
 
+    public Game newGame(User user) {
+        final Game game = new Game(user.getId());
+        game.setWord("testing");
+        game.setDisplayWord("*******");
+        gameRepository.save(game.getId(), game);
+        return game;
+    }
+
     public Game getGameByUser(User user) {
         final List<Game> games = gameRepository.findAllByUserIdAndState(user.getId(), GameState.IN_PROGRESS);
 
@@ -76,13 +84,5 @@ public class GameService {
         }
 
         return gameRepository.save(game.getId(), game);
-    }
-
-    public Game newGame(User user) {
-        final Game game = new Game(user.getId());
-        game.setWord("testing");
-        game.setDisplayWord("*******");
-        gameRepository.save(game.getId(), game);
-        return game;
     }
 }
