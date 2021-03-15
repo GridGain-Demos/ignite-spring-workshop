@@ -26,7 +26,10 @@ public class IgniteConfig {
             CacheConfiguration cacheUsers = new CacheConfiguration("users");
             cacheUsers.setIndexedTypes(UUID.class, User.class);
 
-            igniteConfiguration.setCacheConfiguration(cacheUsers);
+            CacheConfiguration cacheGames = new CacheConfiguration("games");
+            cacheGames.setIndexedTypes(UUID.class, Game.class);
+
+            igniteConfiguration.setCacheConfiguration(cacheUsers, cacheGames);
         };
     }
 
