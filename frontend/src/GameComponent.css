@@ -1,0 +1,33 @@
+.state-holder {
+    margin: 15px;
+}
+
+.keyboard-letter {
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+}
+
+.keyboard-letter.used {
+    text-decoration-line: line-through;
+    text-decoration-color: red;
+    text-decoration-style: solid;
+    text-decoration-thickness: 3px;
+    color: red;
+}
+
+.game-field {
+    text-align: center;
+}
+
+.game-field .game-field-letter {
+    display: inline-block;
+    font-size: 25px;
+    margin: 15px;
+    text-decoration: underline;
+}
